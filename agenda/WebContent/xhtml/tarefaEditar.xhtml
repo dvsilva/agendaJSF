@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="_modelo.xhtml">
+
+	<ui:define name="titulo">Editar Tarefa</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="form">
+			<h:inputHidden id="idTarefa" value="#{tarefaMB.tarefa.id}" />
+			<h:panelGrid columns="2">
+
+				<h:outputLabel value="Data:" for="data"></h:outputLabel>
+				<p:calendar id="data" value="#{tarefaMB.tarefa.data}" size="10"
+					required="true" requiredMessage="O Campo Data é obrigatório.">
+				</p:calendar>
+
+				<h:outputLabel value="Descrição:" for="descricao"></h:outputLabel>
+				<p:inputTextarea id="descricao" value="#{tarefaMB.tarefa.descricao}" rows="10" cols="50"
+					required="true" requiredMessage="O Campo Descricao é obrigatório."></p:inputTextarea>
+
+				<f:facet name="footer">
+					<h:panelGroup>
+						<p:commandButton id="btnSalvar" action="#{tarefaMB.acaoSalvar}"
+							ajax="false" value="Salvar"></p:commandButton>
+						<p:commandButton id="btnCancelar" action="#{tarefaMB.acaoCancelar}"
+							ajax="false" immediate="true" value="Cancelar"></p:commandButton>
+					</h:panelGroup>
+				</f:facet>
+
+			</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

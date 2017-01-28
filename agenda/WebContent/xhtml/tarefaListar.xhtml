@@ -1,0 +1,89 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:composite="http://java.sun.com/jsf/composite">
+
+<ui:composition template="_modelo.xhtml">
+
+	<ui:define name="titulo">Cadastro de Tarefas</ui:define>
+
+	<ui:define name="opcoesMenu">
+		<p:commandButton ajax="false" type="push" value="Incluir Nova Tarefa"
+			action="#{tarefaMB.acaoAbrirInclusao}" immediate="true"
+			image="ui-icon-document" />
+	</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="form">
+
+			<h:outputText value="Filtrar Tarefas" />
+			<h:panelGrid columns="2">
+				<h:outputLabel value="Data:" for="data" />
+				<p:calendar id="data" value="#{tarefaMB.filtro.data}" size="10">
+				</p:calendar>
+				
+				<h:outputLabel value="Descrição:" for="descricao" />
+				<p:inputText id="descricao" value="#{tarefaMB.filtro.descricao}" />
+				
+				<h:outputLabel value=" " />
+				<p:commandButton id="btnFiltrar" action="#{tarefaMB.acaoFiltrar}"
+					ajax="false" value="Filtrar"></p:commandButton>
+				
+			</h:panelGrid>
+			
+			
+			
+			<h:outputText value="Tarefas Cadastradas:"
+				rendered="#{not empty tarefaMB.tarefas}"></h:outputText>
+
+			<p:dataTable id="lista" var="item" value="#{tarefaMB.tarefas}"
+				paginator="true" rows="3" rowsPerPageTemplate="5,10,15"
+				selectionMode="single"
+				rendered="#{not empty tarefaMB.tarefas}" >
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Data" />
+					</f:facet>
+					<h:outputText value="#{item.data}">
+						<f:convertDateTime pattern="dd/MM/yyyy"/>
+					</h:outputText>
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Descrição" />
+					</f:facet>
+					<h:outputText value="#{item.descricao}" />
+				</p:column>
+
+				<p:column>
+					<f:facet name="header">
+						<h:outputText value="Ações" />
+					</f:facet>
+					<h:panelGroup>
+						<h:commandLink action="#{tarefaMB.acaoAbrirAlteracao}"
+							immediate="true">
+							<f:param value="#{item.id}" name="itemId" />
+							<h:outputText value="Alterar"></h:outputText>
+						</h:commandLink>
+						-
+						<h:commandLink action="#{tarefaMB.acaoExcluir}" immediate="true">
+							<f:param value="#{item.id}" name="itemId" />
+							<h:outputText value="Excluir"></h:outputText>
+						</h:commandLink>
+					</h:panelGroup>
+				</p:column>
+
+			</p:dataTable>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>

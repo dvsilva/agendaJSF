@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" 
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:p="http://primefaces.prime.com.tr/ui"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core">
+
+<ui:composition template="_modelo.xhtml">
+
+	<ui:define name="titulo">Editar Pessoa</ui:define>
+
+	<ui:define name="conteudo">
+		<h:form id="form" prependId="false">
+			<h:inputHidden id="idUsuario" value="#{pessoaMB.pessoa.id}" />
+			<h:panelGrid columns="2">
+
+				<h:outputLabel value="ID Grupo:" for="grupo"></h:outputLabel>
+				<h:panelGroup>
+					<p:inputText id="grupo" value="#{pessoaMB.pessoa.grupo}"
+						required="true" converter="grupo-converter" size="5"
+						requiredMessage="O Campo Grupo é inválido.">
+						<f:ajax event="change" execute="grupo" render="nomeGrupo"/>
+					</p:inputText>
+					<h:outputText id="nomeGrupo" value=" - Nome Grupo: #{pessoaMB.pessoa.grupo.descricao}"/>
+				</h:panelGroup>
+
+			<ui:remove>
+				<h:selectOneListbox id="grupo" value="#{pessoaMB.pessoa.grupo}"
+					size="1" converter="grupo-converter">
+					<f:selectItems value="#{pessoaMB.grupos}" var="grupo"
+						itemLabel="#{grupo.descricao}"></f:selectItems>
+				</h:selectOneListbox>
+			</ui:remove>
+
+				<h:outputLabel value="Nome:" for="nome"></h:outputLabel>
+				<h:panelGroup>
+					<p:inputText size="50" id="nome" value="#{pessoaMB.pessoa.nome}"
+						required="true" requiredMessage="O Campo Nome é obrigatório.">
+						<f:ajax event="keyup" execute="nome" render="contador" />
+					</p:inputText>
+					<h:outputText id="contador" value=" - Nº Caracteres: #{pessoaMB.contador}" />
+				</h:panelGroup>
+
+				<h:outputLabel value="Telefone Fixo" for="tel"></h:outputLabel>
+				<p:inputText id="tel" value="#{pessoaMB.pessoa.telefoneFixo}"
+					required="true"
+					requiredMessage="O Campo Telefone Fixo é obrigatório."></p:inputText>
+
+				<h:outputLabel value="Celular" for="cel"></h:outputLabel>
+				<p:inputText id="cel" value="#{pessoaMB.pessoa.celular}"
+					required="true" requiredMessage="O Campo Celular é obrigatório."></p:inputText>
+
+				<h:outputLabel value="E-mail:" for="email"></h:outputLabel>
+				<p:inputText size="50" id="email" value="#{pessoaMB.pessoa.email}"
+					validator="email-validator" required="true" requiredMessage="O Campo E-mail é obrigatório."></p:inputText>
+
+				<h:outputLabel value="Endereço:" for="end"></h:outputLabel>
+				<p:inputText size="50" id="end"
+					value="#{pessoaMB.pessoa.endereco.logradouro}"></p:inputText>
+
+				<h:outputLabel value="Nº:" for="num"></h:outputLabel>
+				<h:panelGrid columns="3" cellpadding="3" cellspacing="0">
+					<p:inputText size="10" id="num"
+						value="#{pessoaMB.pessoa.endereco.numero}"></p:inputText>
+
+					<h:outputLabel value=" Complemento:" for="comp"></h:outputLabel>
+					<p:inputText size="10" id="comp"
+						value="#{pessoaMB.pessoa.endereco.complemento}"></p:inputText>
+				</h:panelGrid>
+
+				<h:outputLabel value="Bairro:" for="bairro"></h:outputLabel>
+				<p:inputText size="50" id="bairro"
+					value="#{pessoaMB.pessoa.endereco.bairro}"></p:inputText>
+
+				<h:outputLabel value="UF:" for="uf"></h:outputLabel>
+				<h:selectOneListbox id="uf" value="#{pessoaMB.filtroUf}" 
+					size="1" converter="uf-converter">
+					<f:selectItem itemLabel="Selecione..."/>
+					<f:selectItems value="#{pessoaMB.listaUF}" var="uf"
+						itemValue="#{uf}" itemLabel="#{uf}"></f:selectItems>
+					<f:ajax event="change" execute="uf" render="cidade" />
+				</h:selectOneListbox>
+
+				<h:outputLabel value="Cidade:" for="cidade"></h:outputLabel>
+				<h:selectOneListbox id="cidade" value="#{pessoaMB.pessoa.cidade}"
+					size="1" converter="cidade-converter">
+					<f:selectItem itemLabel="Selecione..." itemValue="" />
+					<f:selectItems value="#{pessoaMB.cidades}" var="cid"
+						itemLabel="#{cid.nome}"></f:selectItems>
+				</h:selectOneListbox>
+
+				<h:outputLabel value=" CEP:" for="cep"></h:outputLabel>
+				<p:inputMask size="10" id="cep" mask="99999-999"
+					value="#{pessoaMB.pessoa.endereco.cep}"></p:inputMask>
+
+				<f:facet name="footer">
+					<h:panelGroup layout="block" style="text-align: center">
+						<p:commandButton ajax="false" id="btnSalvar"
+							action="#{pessoaMB.acaoSalvar}" value="Salvar"></p:commandButton>
+						<p:commandButton ajax="false" id="btnCancelar"
+							action="#{pessoaMB.acaoCancelar}" immediate="true"
+							value="Cancelar"></p:commandButton>
+					</h:panelGroup>
+				</f:facet>
+
+			</h:panelGrid>
+
+		</h:form>
+	</ui:define>
+
+</ui:composition>
+</html>
